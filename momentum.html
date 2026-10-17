@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Momentum explainer and collision simulator | Senior Five Physics</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root{--paper:#eef3f1;--ink:#12263a;--muted:#4a5f70;--grid:#cfdcd7;--accent:#0b7a6b;--hi:#ffd23f;--surface:#f9fbfa;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0f1c28;--ink:#e8f0ee;--muted:#9fb4bf;--grid:#1f3344;--accent:#4fd1bd;--surface:#152635;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0f1c28;--ink:#e8f0ee;--muted:#9fb4bf;--grid:#1f3344;--accent:#4fd1bd;--surface:#152635;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Newsreader",Georgia,serif;font-size:19px;line-height:1.6;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.1;margin:0}
+h1{font-size:clamp(2rem,7vw,3.2rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+p{margin:0 0 1em}
+section{padding:30px 0;background:var(--paper)}
+header{padding:36px 0 20px;background:var(--paper)}
+.tag{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;color:var(--accent);margin-bottom:8px}
+.lead{color:var(--muted);margin-top:12px}
+.eq{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:1.5rem;font-weight:600;background:var(--surface);border:2px solid var(--ink);border-radius:6px;padding:10px 14px;display:inline-block;margin:6px 0 12px}
+.lab{background:var(--surface);border:2px solid var(--ink);border-radius:6px;padding:14px}
+.lab svg{display:block;width:100%;height:auto}
+.ctl{display:grid;gap:8px 16px;margin-top:12px;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:.95rem}
+@media(min-width:560px){.ctl{grid-template-columns:1fr 1fr}}
+.ctl label{display:flex;flex-direction:column}
+.ctl input[type=range]{width:100%;accent-color:var(--accent);height:32px}
+.ctl output{font-variant-numeric:tabular-nums;color:var(--muted)}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+.btn{font:inherit;font-weight:600;color:var(--paper);background:var(--ink);border:2px solid var(--ink);border-radius:6px;padding:8px 16px;min-height:44px;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+select{font:inherit;padding:8px;border:2px solid var(--ink);border-radius:6px;background:var(--surface);color:var(--ink);min-height:44px}
+.tbl{overflow-x:auto;margin-top:14px}
+table{border-collapse:collapse;width:100%;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:.95rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--grid);white-space:nowrap}
+th{border-bottom:2px solid var(--ink)}
+.msg{margin:10px 0 0;min-height:3em;color:var(--muted);font-size:1rem}
+details{border-top:1px solid var(--ink);padding:10px 0}
+summary{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;cursor:pointer}
+details p{margin:8px 0 0;color:var(--muted)}
+ol{padding-left:1.2em;margin:0}li{margin-bottom:.4em}
+footer{padding:20px 0 40px;font-size:.92rem;color:var(--muted);background:var(--paper)}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="tag">Senior Five Physics · NCDC competency-based</div>
+  <h1>Momentum: why heavy, fast things are hard to stop</h1>
+  <p class="lead">First think about it, then test your thinking with the simulator below.</p>
+</header>
+</div>
+
+<section><div class="wrap">
+  <h2>Start with what you know</h2>
+  <p>A bicycle and a loaded lorry both roll toward you at the same speed. Which is harder to stop, and why? Now keep the lorry the same but let the bicycle go twice as fast. What changes?</p>
+  <p>Both the mass and the velocity matter. Physicists combine them into one quantity:</p>
+  <div class="eq">p = m v</div>
+  <p>Momentum <i>p</i> is measured in kg m/s. It has direction, so we give it a sign: right is positive and left is negative. When objects collide and no outside force acts, the total momentum before equals the total momentum after.</p>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Collision simulator</h2>
+  <p>Before you press Run, predict: what will stay the same, and what might change?</p>
+  <div class="lab">
+    <svg id="sim" viewBox="0 0 600 150" role="img" aria-label="Two blocks on a track that collide"></svg>
+    <div class="ctl">
+      <label>Mass of block 1 <output id="o1"></output><input id="m1" type="range" min="1" max="10" step="1" value="4"></label>
+      <label>Velocity of block 1 <output id="o2"></output><input id="v1" type="range" min="0" max="10" step="1" value="5"></label>
+      <label>Mass of block 2 <output id="o3"></output><input id="m2" type="range" min="1" max="10" step="1" value="2"></label>
+      <label>Velocity of block 2 <output id="o4"></output><input id="v2" type="range" min="-10" max="10" step="1" value="0"></label>
+    </div>
+    <div class="bar">
+      <label for="kind">Collision type</label>
+      <select id="kind"><option value="e">Elastic (bounce)</option><option value="i">Inelastic (stick together)</option></select>
+      <button class="btn" id="run" type="button">Run</button>
+      <button class="btn alt" id="reset" type="button">Reset</button>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>Before</th><th>After</th></tr></thead>
+      <tbody>
+        <tr><td>Block 1 momentum (kg m/s)</td><td id="b1"></td><td id="a1">?</td></tr>
+        <tr><td>Block 2 momentum (kg m/s)</td><td id="b2"></td><td id="a2">?</td></tr>
+        <tr><td><b>Total momentum (kg m/s)</b></td><td id="bt"></td><td id="at">?</td></tr>
+        <tr><td>Total kinetic energy (J)</td><td id="bk"></td><td id="ak">?</td></tr>
+      </tbody>
+    </table></div>
+    <p class="msg" id="msg" aria-live="polite"></p>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Investigate</h2>
+  <ol>
+    <li>Set equal masses, an elastic collision, and block 2 at rest. Describe what happens to each block.</li>
+    <li>Make block 1 much heavier than block 2. Then reverse the masses. What does the lighter block do each time?</li>
+    <li>Choose an inelastic collision. Is total momentum conserved? Is kinetic energy? Where could the missing energy have gone?</li>
+    <li>Give block 2 a negative velocity so the blocks meet head-on. Predict the result first, then check.</li>
+  </ol>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Check your thinking</h2>
+  <details><summary>Investigation 1</summary><p>The blocks swap velocities: block 1 stops and block 2 moves off with block 1’s original velocity.</p></details>
+  <details><summary>Investigation 2</summary><p>A heavy block barely slows and sends the light block off faster than itself. A light block bounces back from a heavy block that is hardly moved.</p></details>
+  <details><summary>Investigation 3</summary><p>Total momentum is conserved. Kinetic energy is not: some becomes heat, sound and deformation of the blocks.</p></details>
+  <details><summary>Investigation 4</summary><p>Use signs. Total momentum is m₁v₁ + m₂v₂, with left negative. Whatever that total is before, it is the same after.</p></details>
+</div></section>
+
+<footer><div class="wrap">Made by Tukashaba Ernest. <a href="index.html">More free resources</a></div></footer>
+
+<script>
+var $=function(i){return document.getElementById(i)},svg=$("sim"),K=28,X1=90,X2=430,raf=0;
+var s={};
+function f(n){n=Math.round(n*100)/100;return Math.abs(n)<0.005?"0":String(n)}
+function read(){return{m1:+$("m1").value,v1:+$("v1").value,m2:+$("m2").value,v2:+$("v2").value,k:$("kind").value}}
+function ke(m,v){return .5*m*v*v}
+function after(a){
+  if(a.k==="i"){var v=(a.m1*a.v1+a.m2*a.v2)/(a.m1+a.m2);return[v,v]}
+  return[((a.m1-a.m2)*a.v1+2*a.m2*a.v2)/(a.m1+a.m2),((a.m2-a.m1)*a.v2+2*a.m1*a.v1)/(a.m1+a.m2)]}
+function labels(){
+  var a=read();
+  $("o1").textContent=a.m1+" kg";$("o2").textContent=a.v1+" m/s";$("o3").textContent=a.m2+" kg";$("o4").textContent=a.v2+" m/s";
+  $("b1").textContent=f(a.m1*a.v1);$("b2").textContent=f(a.m2*a.v2);$("bt").textContent=f(a.m1*a.v1+a.m2*a.v2);
+  $("bk").textContent=f(ke(a.m1,a.v1)+ke(a.m2,a.v2))}
+function draw(){
+  var h=50,y=110-h,w1=s.w1,w2=s.w2;
+  svg.innerHTML='<line x1="0" y1="110" x2="600" y2="110" stroke="currentColor" stroke-width="2"/>'+
+  '<rect x="'+(s.x1-w1/2)+'" y="'+y+'" width="'+w1+'" height="'+h+'" rx="4" fill="var(--accent)" stroke="var(--ink)" stroke-width="2"/>'+
+  '<rect x="'+(s.x2-w2/2)+'" y="'+y+'" width="'+w2+'" height="'+h+'" rx="4" fill="var(--hi)" stroke="var(--ink)" stroke-width="2"/>'+
+  '<text x="'+s.x1+'" y="'+(y+31)+'" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="18" fill="#fff">'+s.m1+' kg</text>'+
+  '<text x="'+s.x2+'" y="'+(y+31)+'" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="18" fill="#12263a">'+s.m2+' kg</text>'}
+function setup(){
+  cancelAnimationFrame(raf);var a=read();
+  s={m1:a.m1,m2:a.m2,v1:a.v1,v2:a.v2,k:a.k,w1:34+a.m1*5,w2:34+a.m2*5,x1:X1,x2:X2,hit:false,t:0,ht:0,run:false};
+  ["a1","a2","at","ak"].forEach(function(i){$(i).textContent="?"});
+  $("msg").textContent=a.v1<=a.v2?"Block 1 needs to be faster than block 2 to catch it. Increase its velocity or give block 2 a negative one.":"";
+  labels();draw()}
+function finish(){
+  var a=read(),r=after(a);
+  $("a1").textContent=f(a.m1*r[0]);$("a2").textContent=f(a.m2*r[1]);
+  $("at").textContent=f(a.m1*r[0]+a.m2*r[1]);
+  var kb=ke(a.m1,a.v1)+ke(a.m2,a.v2),ka=ke(a.m1,r[0])+ke(a.m2,r[1]);
+  $("ak").textContent=f(ka);
+  $("msg").textContent=Math.abs(kb-ka)<0.01?"Total momentum and kinetic energy are both conserved.":"Total momentum is conserved. Kinetic energy dropped by "+f(kb-ka)+" J. Where did it go?"}
+function step(ts){
+  if(!s.last)s.last=ts;
+  var dt=Math.min((ts-s.last)/1000,.05);s.last=ts;
+  s.x1+=s.v1*K*dt;s.x2+=s.v2*K*dt;s.t+=dt;
+  if(!s.hit&&s.x1+s.w1/2>=s.x2-s.w2/2){
+    s.hit=true;var r=after(s);s.x1=s.x2-(s.w1+s.w2)/2;s.v1=r[0];s.v2=r[1];finish()}
+  if(s.hit)s.ht+=dt;
+  draw();
+  if(s.x1<-100||s.x2>700||s.x1>700||s.x2<-100||(s.hit&&s.ht>3)||(!s.hit&&s.t>6)){s.run=false;return}
+  raf=requestAnimationFrame(step)}
+$("run").addEventListener("click",function(){
+  setup();var a=read();if(a.v1<=a.v2)return;
+  s.run=true;s.last=0;raf=requestAnimationFrame(step)});
+$("reset").addEventListener("click",setup);
+["m1","v1","m2","v2","kind"].forEach(function(i){$(i).addEventListener("input",setup)});
+setup();
+</script>
+</body>
+</html>
