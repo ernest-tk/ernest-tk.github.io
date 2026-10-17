@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Career Compass | Find careers that fit you</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Newsreader:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root{--paper:#eef3f1;--ink:#12263a;--muted:#4a5f70;--grid:#cfdcd7;--accent:#0b7a6b;--hi:#ffd23f;--surface:#f9fbfa;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#0f1c28;--ink:#e8f0ee;--muted:#9fb4bf;--grid:#1f3344;--accent:#4fd1bd;--surface:#152635;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0f1c28;--ink:#e8f0ee;--muted:#9fb4bf;--grid:#1f3344;--accent:#4fd1bd;--surface:#152635;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Newsreader",Georgia,serif;font-size:19px;line-height:1.6;
+background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.15;margin:0}
+h1{font-size:clamp(2.1rem,8vw,3.4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+h3{font-size:1.15rem;font-weight:600}
+p{margin:0 0 1em}
+section,header,footer{background:var(--paper)}
+header{padding:36px 0 16px}
+section{padding:26px 0}
+.tag{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;color:var(--accent);margin-bottom:8px}
+.lead{color:var(--muted);margin-top:12px}
+mark{background:linear-gradient(transparent 55%,var(--hi) 55%);color:inherit;padding:0 2px}
+.box{background:var(--surface);border:2px solid var(--ink);border-radius:6px;padding:18px}
+.prog{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+.bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:var(--accent);width:0}
+.q{font-size:1.25rem;font-weight:600;min-height:3.2em}
+.opts{display:grid;gap:10px;margin-top:8px}
+@media(min-width:560px){.opts{grid-template-columns:repeat(3,1fr)}}
+.btn{font:inherit;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;color:var(--ink);background:transparent;border:2px solid var(--ink);border-radius:6px;padding:10px 14px;min-height:46px;cursor:pointer}
+.btn.fill{background:var(--ink);color:var(--paper)}
+.btn:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.back{margin-top:14px}
+.res{border-top:2px solid var(--ink);padding:14px 0}
+.res:last-of-type{border-bottom:2px solid var(--ink)}
+.pct{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:.9rem;color:var(--muted);margin:6px 0}
+.pct b{display:block;height:10px;background:var(--accent);border-radius:5px}
+.pct span{flex:none}
+.pct div{flex:1;background:var(--grid);border-radius:5px}
+dl{margin:8px 0 0}dt{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;font-size:.95rem;margin-top:8px}
+dd{margin:0;color:var(--muted);font-size:1rem;line-height:1.45}
+details{border-top:1px solid var(--ink);padding:10px 0}
+summary{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:600;cursor:pointer}
+ol{padding-left:1.2em;margin:0}li{margin-bottom:.4em}
+.note{font-size:.95rem;color:var(--muted)}
+footer{padding:20px 0 40px;font-size:.92rem;color:var(--muted)}
+a{color:var(--accent)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="tag">For Senior Three to Senior Six students</div>
+  <h1>Career Compass: find careers that <mark>fit you</mark></h1>
+  <p class="lead">Answer 12 quick statements about yourself. You will get three careers to explore, plus the subjects that usually lead to them.</p>
+</header>
+</div>
+
+<section><div class="wrap">
+  <div class="box" id="quiz">
+    <div class="prog" id="prog"></div>
+    <div class="bar"><i id="fill"></i></div>
+    <p class="q" id="q"></p>
+    <div class="opts">
+      <button class="btn" data-v="0" type="button">Not like me</button>
+      <button class="btn" data-v="1" type="button">Sometimes</button>
+      <button class="btn" data-v="2" type="button">Very like me</button>
+    </div>
+    <button class="btn back" id="back" type="button">Back</button>
+  </div>
+
+  <div id="result" hidden>
+    <h2>Your top three to explore</h2>
+    <p class="note">These are starting points, not decisions. Your interests can grow, and many careers need skills you can still build.</p>
+    <div id="top"></div>
+    <button class="btn fill" id="again" type="button" style="margin-top:14px">Start again</button>
+  </div>
+</div></section>
+
+<section id="reflect" hidden><div class="wrap">
+  <h2>Think it through</h2>
+  <ol>
+    <li>Which skills for your top career do you already have? Which will you build, and how?</li>
+    <li>Talk to someone who works in it. What does an ordinary day look like?</li>
+    <li>Which of your subjects will you need to work hardest at to keep this door open?</li>
+  </ol>
+</div></section>
+
+<section><div class="wrap">
+  <h2>All 12 careers</h2>
+  <p class="note">Tap a career to see what it involves.</p>
+  <div id="all"></div>
+  <p class="note" style="margin-top:14px">Subject combinations and entry requirements change from year to year and differ between institutions. Always confirm with the university, college or institute before choosing your subjects.</p>
+</div></section>
+
+<footer><div class="wrap">Made by Tukashaba Ernest. <a href="index.html">More free resources</a></div></footer>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var TR=["Helping people","Building and designing","Numbers and logic","Outdoors and nature","Words and ideas","Leading and business"];
+var Q=[["I like helping someone who is sick or upset feel better.",0],["I stay calm when people around me are stressed.",0],
+["I enjoy fixing, building or making things with my hands.",1],["I like drawing, planning or designing how things look.",1],
+["I enjoy number puzzles and logic problems.",2],["I like working out how things work and finding patterns.",2],
+["I would happily work outdoors with plants, animals or land.",3],["I care about forests, wildlife, water and the environment.",3],
+["I enjoy explaining ideas, writing or speaking to a group.",4],["I like debating and standing up for what is fair.",4],
+["I like organising people and activities to get things done.",5],["I often think of ways to start or grow a business.",5]];
+var C=[
+{n:"Medical doctor",w:[3,0,2,0,1,1],d:"Diagnoses and treats patients in hospitals and clinics.",s:"Usually Physics, Chemistry and Biology, with Mathematics helpful.",p:"A medical degree at a university, then internship and further specialising.",k:"Care, steady nerves, memory, teamwork."},
+{n:"Nurse or midwife",w:[3,0,1,0,1,1],d:"Cares for patients and mothers, often the first health worker people meet.",s:"Biology and Chemistry are usually important; check each school’s needs.",p:"Certificate, diploma or degree at a nursing or midwifery school or university.",k:"Compassion, patience, communication, stamina."},
+{n:"Pharmacist",w:[2,0,3,0,0,1],d:"Prepares and advises on medicines, and keeps their supply safe.",s:"Usually Chemistry and Biology, with Physics or Mathematics helpful.",p:"A pharmacy degree at a university, then registration.",k:"Accuracy, chemistry, honesty, clear explanation."},
+{n:"Civil engineer",w:[0,3,3,1,0,1],d:"Designs and supervises roads, bridges, water systems and buildings.",s:"Mathematics and Physics are usually the core.",p:"An engineering degree or diploma, then professional registration.",k:"Maths, problem solving, drawing, site leadership."},
+{n:"Electrical or solar engineer",w:[0,3,2,1,0,1],d:"Installs and designs power systems, from home solar to the national grid.",s:"Physics and Mathematics are usually the core.",p:"A degree, diploma or technical certificate, with hands-on training.",k:"Practical skill, safety, calculation, troubleshooting."},
+{n:"Software developer",w:[0,2,3,0,0,1],d:"Builds apps, websites and systems for businesses, banks and farmers.",s:"Mathematics and Physics help, and ICT skills matter a lot.",p:"A computing degree or diploma, or strong self-taught projects.",k:"Logic, patience, learning new tools, teamwork."},
+{n:"Architect or land surveyor",w:[0,3,2,1,1,0],d:"Plans buildings and spaces, or measures and maps land.",s:"Mathematics and Physics usually, with Art or Geography helpful.",p:"A degree or diploma in architecture, surveying or physical planning.",k:"Design sense, measurement, drawing, attention to detail."},
+{n:"Agricultural scientist or agribusiness",w:[0,1,1,3,0,2],d:"Improves crops, livestock and markets, or runs a farm business.",s:"Biology and Chemistry usually, with Geography or Agriculture helpful.",p:"A degree or diploma in agriculture, or training plus farm experience.",k:"Practical farming, planning, business sense, patience."},
+{n:"Accountant or finance officer",w:[0,0,3,0,1,2],d:"Records and checks money for companies, schools and government.",s:"Mathematics and Economics are usually helpful.",p:"A degree or diploma in accounting or finance, then professional exams.",k:"Accuracy, honesty, organisation, clear reporting."},
+{n:"Lawyer",w:[1,0,0,0,3,2],d:"Advises people and organisations on the law and speaks for them in court.",s:"Humanities such as History, Economics, Literature or Geography, with strong English.",p:"A law degree, then practical legal training and admission to the bar.",k:"Reading, argument, fairness, clear speaking and writing."},
+{n:"Teacher or lecturer",w:[2,0,1,0,3,1],d:"Helps learners understand, think critically and solve problems.",s:"The subjects you want to teach, with strong English.",p:"A teaching certificate, diploma or degree, then experience and further study.",k:"Explaining, patience, creativity, leadership."},
+{n:"Environment, wildlife and tourism",w:[1,0,0,3,1,2],d:"Protects forests, water and wildlife, or guides and manages visitors.",s:"Geography and Biology usually, with Economics or Chemistry helpful.",p:"A degree or diploma in environment, forestry, wildlife or tourism.",k:"Outdoor fitness, observation, communication, planning."}];
+var ans=[],i=0;
+function show(){
+  $("q").textContent=Q[i][0];
+  $("prog").textContent="Statement "+(i+1)+" of "+Q.length;
+  $("fill").style.width=(i/Q.length*100)+"%";
+  $("back").hidden=i===0}
+function card(c,pct){
+  return '<h3>'+c.n+'</h3>'+(pct!==null?'<div class="pct"><div><b style="width:'+pct+'%"></b></div><span>'+pct+'% match</span></div>':'')+
+  '<dl><dt>What you do</dt><dd>'+c.d+'</dd><dt>Subjects that usually help</dt><dd>'+c.s+'</dd><dt>How to get there</dt><dd>'+c.p+'</dd><dt>Skills to build</dt><dd>'+c.k+'</dd></dl>'}
+function finish(){
+  var t=[0,0,0,0,0,0];
+  ans.forEach(function(a,k){t[Q[k][1]]+=a});
+  var r=C.map(function(c){var s=0,m=0;for(var j=0;j<6;j++){s+=c.w[j]*t[j];m+=c.w[j]*4}return{c:c,p:Math.round(100*s/m)}});
+  r.sort(function(a,b){return b.p-a.p});
+  $("top").innerHTML=r.slice(0,3).map(function(x){return '<div class="res">'+card(x.c,x.p)+'</div>'}).join("");
+  $("quiz").hidden=true;$("result").hidden=false;$("reflect").hidden=false;
+  $("result").scrollIntoView()}
+document.querySelectorAll(".opts .btn").forEach(function(b){b.addEventListener("click",function(){
+  ans[i]=+b.getAttribute("data-v");i++;
+  if(i>=Q.length){$("fill").style.width="100%";finish()}else show()})});
+$("back").addEventListener("click",function(){if(i>0){i--;show()}});
+$("again").addEventListener("click",function(){ans=[];i=0;$("quiz").hidden=false;$("result").hidden=true;$("reflect").hidden=true;show();window.scrollTo(0,0)});
+$("all").innerHTML=C.map(function(c){return '<details><summary>'+c.n+'</summary>'+card(c,null)+'</details>'}).join("");
+show();
+</script>
+</body>
+</html>
